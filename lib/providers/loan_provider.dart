@@ -85,7 +85,6 @@ class LoanController extends Notifier<LoanState> {
     final newInput = state.loanInput;
     newInput.tenureYears = value;
     
-    // Ensure prepayment month is within new tenure
     int maxMonths = newInput.tenureMonths;
     if (newInput.prepaymentMonth != null && newInput.prepaymentMonth! > maxMonths) {
       newInput.prepaymentMonth = maxMonths;
@@ -103,7 +102,6 @@ class LoanController extends Notifier<LoanState> {
   void updateStartDate(DateTime value) {
     final newInput = state.loanInput;
     
-    // Maintain absolute prepayment date if possible
     final oldPrepDate = DateTime(
       newInput.startDate.year,
       newInput.startDate.month + (newInput.prepaymentMonth ?? 1) - 1,
@@ -111,10 +109,9 @@ class LoanController extends Notifier<LoanState> {
     
     newInput.startDate = value;
     
-    // Calculate new relative index
     int newMonthIndex = DateUtils.monthDelta(newInput.startDate, oldPrepDate) + 1;
     if (newMonthIndex < 1) {
-      newMonthIndex = 1; // Clamp to loan start date
+      newMonthIndex = 1;
     }
     int maxMonths = newInput.tenureMonths;
     if (newMonthIndex > maxMonths) {

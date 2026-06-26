@@ -29,7 +29,6 @@ class _LoanDatePickerState extends State<LoanDatePicker> {
 
 
   Future<void> _selectDate() async {
-    //DateTime today = DateTime.now();
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: widget.startDate,

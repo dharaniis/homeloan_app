@@ -26,7 +26,6 @@ class _PrepaymentAmountTextfieldState
   final converter = AmountToWords();
   String? _errorMessage;
 
-  // Safe parse — returns null on empty or invalid input
   num? _tryParse(String value) {
     if (value.trim().isEmpty) return null;
     try {
@@ -39,7 +38,6 @@ class _PrepaymentAmountTextfieldState
   void _handleEditComplete() {
     final number = _tryParse(_myController.text);
     if (number == null) {
-      // Restore last valid default if field was cleared
       setState(() {
         _myController.text = NumberFormat.decimalPattern('en_IN')
             .format(widget.min);
@@ -95,7 +93,7 @@ class _PrepaymentAmountTextfieldState
                     final number = _tryParse(value);
                     setState(() {
                       if (value.trim().isEmpty) {
-                        _errorMessage = null; // Empty is handled on submit
+                        _errorMessage = null;
                       } else if (number == null) {
                         _errorMessage = 'Invalid amount';
                       } else if (number > widget.max) {
@@ -120,7 +118,6 @@ class _PrepaymentAmountTextfieldState
               ),
             ],
           ),
-          // Only show words when there's a valid number
           if (displayedNumber != null)
             Text(
               converter.convertAmountToWords(displayedNumber.toDouble()),

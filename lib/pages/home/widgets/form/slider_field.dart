@@ -78,7 +78,6 @@ class _SliderFieldState extends State<SliderField> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: Colors.black),
-          //border: Border.all(color: Color(0xFFE0E0E0)),
 
         ),
         child: Column(
@@ -105,7 +104,6 @@ class _SliderFieldState extends State<SliderField> {
               min: widget.min,
               max: widget.max,
               divisions: widget.divisions,
-              //label: _displayValue,
               onChanged: handleSliderChanged,
               onChangeEnd: (value) => widget.onChanged(value),
             ),

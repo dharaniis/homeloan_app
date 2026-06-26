@@ -34,7 +34,6 @@ class EmiCalculator {
       final interestForThisMonth = openingBalance * r;
       final totalToClose = openingBalance + interestForThisMonth;
 
-      // Determine if it is a prepayment month
       bool isPrepaymentMonth = false;
       if (enablePrepayment && inputPrepaymentAmount > 0) {
         if (prepaymentType == PrepaymentType.oneTime &&
@@ -53,8 +52,6 @@ class EmiCalculator {
       double actualPrepayment = 0;
       double closingBalance = 0;
 
-      // Skip EMI Condition: Prepayment is enough to close everything
-      // Use a small epsilon to handle floating point precision
       if (isPrepaymentMonth && inputPrepaymentAmount >= (totalToClose - 0.01)) {
         actualEmiPaid = 0;
         principalFromEmi = 0;
@@ -62,7 +59,6 @@ class EmiCalculator {
         actualPrepayment = totalToClose;
         closingBalance = 0;
       } else {
-        // Standard Waterfall: Pay interest, then EMI principal, then prepayment
         interestPaid = interestForThisMonth;
 
         principalFromEmi = currentEmi - interestPaid;
@@ -83,7 +79,6 @@ class EmiCalculator {
         closingBalance = balanceAfterEmi - actualPrepayment;
       }
 
-      // If Strategy is Reduce EMI, recalculate for next month
       if (prepaymentStrategy == PrepaymentStrategy.reduceEMI &&
           isPrepaymentMonth &&
           closingBalance > 0 &&
